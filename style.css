@@ -1,0 +1,250 @@
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Web Fonts */
+.font-bold {
+  font-family: itc-avant-garde-gothic-pro, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+.font-medium {
+  font-family: itc-avant-garde-gothic-pro, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+.font-book {
+  font-family: itc-avant-garde-gothic-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+.font-slant {
+  -moz-font-feature-settings: "salt";
+  -webkit-font-feature-settings: "salt";
+  font-feature-settings: "salt";
+}
+
+/* Colors */
+body {
+  background-color: #222;
+  font-family: itc-avant-garde-gothic-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  color: #121212;
+}
+
+#content {
+  display: flex;
+  justify-content: center;
+  height: 197vh;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 2px, transparent 2px),
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+/* Sections */
+.sections {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Section 1 */
+.section-1 {
+  position: relative;
+  z-index: 1;
+  width: 90vw;
+  min-height: calc(100vh + 5vw);
+  margin-top: 5vw;
+  background-color: #88CE02;
+  border-radius: 12px;
+}
+
+.section-1 .c-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  letter-spacing: -0.03em;
+  color: #121212;
+}
+
+.section-1 .info {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  transform: translateY(-100%);
+}
+
+.section-1 .sub-title {
+  position: relative;
+  margin-top: 3.6vw;
+  font-size: 2vw;
+}
+
+.section-1 .title {
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.section-1 .title-1 {
+  padding: 0 0.5ch;
+  font-size: clamp(36px, 6.6vw, 154px);
+  letter-spacing: -0.05em;
+}
+
+.section-1 .title-2 {
+  width: 100%;
+  margin-top: -1.5vw;
+  font-size: clamp(30px, 5.5vw, 129px);
+  letter-spacing: -0.04em;
+}
+
+.section-1 .indicator {
+  position: absolute;
+  top: 80vh;
+  transform: translateY(-100%);
+  font-size: clamp(48px, 5.5vw, 129px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.section-1 .pointer {
+  animation: pointDown 2.5s infinite;
+}
+
+@keyframes pointDown {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(20px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(20px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+}
+
+.section-1 .credit {
+  position: absolute;
+  bottom: 5vw;
+  z-index: 1;
+  color: #121212;
+  letter-spacing: 0.01em;
+}
+
+.section-1 .credit a {
+  color: #121212;
+}
+
+/* Section 2 */
+.section-2 {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  width: 90vw;
+  min-height: 100vh;
+  font-size: clamp(24px, 4.4vw, 103px);
+  letter-spacing: -0.04em;
+  text-align: center;
+  color: #fff;
+}
+
+.section-2 .info {
+  transform: translateY(-50%);
+}
+
+.section-2 .text {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.section-2 a {
+  color: #88CE02;
+}
+
+
+
+
+
+
+
+/* Form container centers form under heading */
+.form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Form layout: vertical stack */
+#admission-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Input fields */
+#admission-form input[type="number"],
+#admission-form input[type="text"],
+#admission-form textarea {
+  padding: 10px;
+  width: 100%;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+}
+
+/* Checkbox label */
+#admission-form .research-label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #fff;
+  gap: 10px;
+}
+
+/* Submit button */
+#admission-form button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background-color: #88CE02;
+  color: #121212;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#admission-form button:hover {
+  background-color: #76b702;
+}

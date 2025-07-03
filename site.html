@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>University Admission Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- GSAP + ScrollSmoother CDN -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollSmoother.min.js"></script>
+
+    <style>
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #1c1c1c;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="content">
+
+            <div class="sections">
+
+                <section class="section-1">
+
+                    <div class="c-title">
+
+                        <div class="info">
+
+                            <div class="sub-title sub-title-1 font-book font-slant">
+                                <em>The</em>
+                            </div>
+
+                            <div class="title title-1 font-bold font-slant">
+                                <div class="title-text">Chances</div>
+                            </div>
+
+                            <div class="sub-title sub-title-2 font-book font-slant">
+                                <em>of getting</em>
+                            </div>
+
+                            <div class="title title-2 font-medium font-slant">
+                                <div class="title-text"><span class="font-book">into your</span> Dream University</div>
+                            </div>
+
+                        </div>
+
+                        <div class="indicator">
+                            <div class="pointer">
+                                ☟
+                            </div>
+                        </div>
+
+                        <div class="credit font-medium">
+                            By: <b><u>Ansh, Abhinav, Bhaskar, Mukesh, Vikesh </u></b>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="section-2 font-book" data-speed="0.75">
+
+                    <div class="info">
+
+                        <div class="text">Enter Your Scores:</div>
+                        <!-- 
+                        <a class="font-medium" href="https://greensock.com/docs/v3/Plugins/ScrollSmoother"
+                            target="_blank" rel="noopener" data-ignore>
+                            The Greensock Docs
+                        </a> -->
+
+                    </div>
+                    <div class="form-container">
+                        <form id="admission-form">
+                            <input type="number" name="gre" placeholder="GRE Score (e.g. 320)" min="0" max="340"
+                                required>
+                            <input type="number" name="toefl" placeholder="TOEFL Score (e.g. 110)" min="0" max="120"
+                                required>
+                            <input type="number" name="university_rating" placeholder="University Rating (1–5)" min="1"
+                                max="5" required>
+                            <input type="number" step="0.5" name="sop" placeholder="SOP Strength (1.0–5.0)" min="1"
+                                max="5" required>
+                            <input type="number" step="0.5" name="lor" placeholder="LOR Strength (1.0–5.0)" min="1"
+                                max="5" required>
+                            <input type="number" step="0.01" name="cgpa" placeholder="CGPA (e.g. 8.9)" min="0" max="10"
+                                required>
+
+                            <label class="research-label">
+                                <input type="checkbox" name="research"> Has Research Experience?
+                            </label>
+
+                            <button type="submit">Predict Admission</button>
+                        </form>
+
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+
+    </div>
+
+<!-- Modal Container -->
+<div id="suggestionsModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <h3>Suggestions to Improve Your Profile:</h3>
+    <ul id="modal-suggestions-list"></ul>
+  </div>
+</div>
+
+
+
+</body>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/ScrollSmoother.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/Observer.min.js"></script>
+<script src="/static/script.js"></script>
+
+<script>
+document.getElementById('admission-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const data = {
+        gre: document.getElementsByName('gre')[0].value,
+        toefl: document.getElementsByName('toefl')[0].value,
+        university_rating: document.getElementsByName('university_rating')[0].value,
+        sop: document.getElementsByName('sop')[0].value,
+        lor: document.getElementsByName('lor')[0].value,
+        cgpa: document.getElementsByName('cgpa')[0].value,
+        research: document.getElementsByName('research')[0].checked ? 1 : 0
+    };
+
+    fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        const modal = document.getElementById('suggestionsModal');
+        const suggestionList = document.getElementById('modal-suggestions-list');
+        const closeBtn = document.querySelector('.close-button');
+
+        // Admission chance message
+        suggestionList.innerHTML = `<li><strong>Predicted chance of admission:</strong> ${Math.round(result.admission_chance * 100)}%</li>`;
+
+        // Add suggestions
+        if (result.suggestions && result.suggestions.length > 0) {
+            result.suggestions.forEach(suggestion => {
+                const li = document.createElement('li');
+                li.textContent = suggestion;
+                suggestionList.appendChild(li);
+            });
+        } else {
+            const li = document.createElement('li');
+            li.textContent = 'Your profile looks strong! No major suggestions.';
+            suggestionList.appendChild(li);
+        }
+
+        // Show the modal
+        modal.style.display = 'block';
+
+        // Close modal on button click
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+        }
+
+        // Close modal if clicking outside the content
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error);
+    });
+});
+</script>
+
+
+
+
+
+</html>
